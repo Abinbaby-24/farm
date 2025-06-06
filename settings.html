@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Farm | My Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4CAF50;
+      --primary-dark: #388E3C;
+      --secondary: #FFC107;
+      --dark: #263238;
+      --light: #f5f5f5;
+      --gray: #757575;
+      --white: #ffffff;
+      --warning: #fbc02d;
+      --sidebar-width: 250px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+      background-color: var(--white);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+    
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      color: var(--secondary);
+    }
+    
+    .search-bar {
+      flex: 1;
+      margin: 0 2rem;
+      position: relative;
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .search-bar i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+    
+    .nav-icons {
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-icons a {
+      color: var(--dark);
+      font-size: 1.2rem;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      position: relative;
+    }
+    
+    .nav-icons a:hover {
+      color: var(--primary);
+    }
+    
+    .nav-icons .profile-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--white);
+      color: var(--dark);
+      position: fixed;
+      height: 100vh;
+      padding: 1rem;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+      z-index: 100;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar-header {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .sidebar-nav li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+      color: var(--dark);
+      text-decoration: none;
+      display: block;
+      padding: 0.75rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-nav a:hover, .sidebar-nav a.active {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--primary);
+    }
+    
+    .sidebar-nav i {
+      margin-right: 0.5rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* Main Content */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    /* Profile Content */
+    .profile-content {
+      background-color: var(--white);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .profile-header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 2rem;
+    }
+    
+    .profile-info h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .profile-info p {
+      color: var(--gray);
+      margin-bottom: 1rem;
+    }
+    
+    .profile-stats {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    /* Plant Progress Section */
+    .plant-progress {
+      margin-top: 2rem;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      color: var(--primary-dark);
+    }
+    
+    .add-plant-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .plant-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .plant-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .plant-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .plant-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+    
+    .plant-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .plant-date {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+    
+    .plant-status {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .status {
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .warning {
+      color: var(--warning);
+    }
+    
+    .progress {
+      background: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 10px;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: var(--primary);
+    }
+    
+    /* Farming Techniques Section */
+    .farming-techniques {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #eee;
+    }
+    
+    .technique-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .technique-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .technique-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .technique-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .technique-icon {
+      width: 50px;
+      height: 50px;
+      background-color: rgba(76, 175, 80, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+    
+    .technique-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .technique-desc {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 1rem;
+    }
+    
+    .technique-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+    
+    .technique-stat {
+      background: rgba(76, 175, 80, 0.1);
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      color: var(--primary-dark);
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .form-group textarea {
+      min-height: 100px;
+    }
+    
+    .submit-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      margin-top: 1rem;
+      width: 100%;
+    }
+    
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--dark);
+      font-size: 1.5rem;
+      cursor: pointer;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 101;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 0;
+        overflow: hidden;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.open {
+        width: var(--sidebar-width);
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .profile-header img {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+      
+      .profile-stats {
+        justify-content: center;
+      }
+      
+      .search-bar {
+        display: none;
+      }
+      
+      .technique-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile Menu Toggle -->
+  <button class="menu-toggle" id="menuToggle">☰</button>
+  
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>Smart Farm</h2>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="#" class="active"><i class="fas fa-user"></i> My Profile</a></li>
+      <li><a href="network.html"><i class="fas fa-users"></i> My Network</a></li>
+      <li><a href="weather.html"><i class="fas fa-cloud-sun"></i> Weather</a></li>
+      <li><a href="calendar.html"><i class="fas fa-calendar-alt"></i> Farming Calendar</a></li>
+      <li><a href="guides.html"><i class="fas fa-book"></i> Farming Guides</a></li>
+      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="front.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="container main-content" id="mainContent">
+    <!-- Header -->
+    <header>
+      <div class="header-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-leaf"></i>
+          <span>Smart Farm</span>
+        </a>
+        <div class="search-bar">
+          <input type="text" placeholder="Search for plants, farmers...">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="nav-icons">
+          <a href="index.html" class="active"><i class="fas fa-user"></i></a>
+          <a href="network.html"><i class="fas fa-users"></i></a>
+          <a href="#"><i class="fas fa-bell"></i></a>
+          <a href="#"><i class="fas fa-envelope"></i></a>
+          <a href="#"><img src="abin2.jpg" alt="Profile" class="profile-img"></a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Profile Content -->
+    <main class="profile-content">
+      <div class="profile-header">
+        <img src="abin2.jpg" alt="Profile Photo">
+        <div class="profile-info">
+          <h1>ABIN BABY</h1>
+          <p>Gardener | CHERTHALA , ALAPPUZHA</p>
+          <div class="profile-stats">
+            <div class="stat">
+              <div class="stat-value">42</div>
+              <div class="stat-label">Plants</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">18</div>
+              <div class="stat-label">Harvests</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">156</div>
+              <div class="stat-label">Followers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Plant Progress Section -->
+      <div class="plant-progress">
+        <div class="section-header">
+          <h2 class="section-title">My Plants</h2>
+          <button class="add-plant-btn" id="addPlantBtn">+</button>
+        </div>
+        
+        <div class="plant-cards">
+          <div class="plant-card">
+            <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tomato Plant">
+            <div class="plant-name">Cherry Tomato</div>
+            <div class="plant-date">Planted: May 5, 2023</div>
+            <div class="plant-status status">Healthy 🌿</div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 65%;"></div>
+            </div>
+          </div>
+          
+          <div class="plant-card">
+            <img src="https://images.unsplash.com/photo-1601579532060-44c8cef61d67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Basil Plant">
+            <div class="plant-name">Sweet Basil</div>
+            <div class="plant-date">Planted: April 28, 2023</div>
+            <div class="plant-status status">Thriving 🌱</div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 80%;"></div>
+            </div>
+          </div>
+          
+          <div class="plant-card">
+            <img src="https://images.unsplash.com/photo-1589927986089-35812388d1f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mint Plant">
+            <div class="plant-name">Peppermint</div>
+            <div class="plant-date">Planted: April 15, 2023</div>
+            <div class="plant-status warning">Needs Water 💧</div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 45%;"></div>
+            </div>
+          </div>
+          
+          <div class="plant-card">
+            <img src="https://images.unsplash.com/photo-1594282416546-99338f2a9a61?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tomatoes">
+            <div class="plant-name">Heirloom Tomato</div>
+            <div class="plant-date">Planted: March 30, 2023</div>
+            <div class="plant-status status">Harvested 🍅</div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Farming Techniques Section -->
+      <div class="farming-techniques">
+        <div class="section-header">
+          <h2 class="section-title">My Farming Techniques</h2>
+        </div>
+        
+        <div class="technique-cards">
+          <div class="technique-card">
+            <div class="technique-header">
+              <div class="technique-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <div class="technique-name">Indoor Hydroponics</div>
+            </div>
+            <div class="technique-desc">
+              Using nutrient-rich water solutions to grow plants without soil in my apartment. Perfect for herbs and leafy greens year-round.
+            </div>
+            <div class="technique-stats">
+              <div class="technique-stat">🌿 12 Plants</div>
+              <div class="technique-stat">💧 Water Efficient</div>
+              <div class="technique-stat">🌡️ Climate Controlled</div>
+            </div>
+          </div>
+          
+          <div class="technique-card">
+            <div class="technique-header">
+              <div class="technique-icon">
+                <i class="fas fa-sun"></i>
+              </div>
+              <div class="technique-name">Outdoor Raised Beds</div>
+            </div>
+            <div class="technique-desc">
+              Elevated garden beds in my backyard with rich organic soil. Great for root vegetables and larger plants that need more space.
+            </div>
+            <div class="technique-stats">
+              <div class="technique-stat">🥕 8 Beds</div>
+              <div class="technique-stat">🌱 Organic Soil</div>
+              <div class="technique-stat">🔄 Crop Rotation</div>
+            </div>
+          </div>
+          
+          <div class="technique-card">
+            <div class="technique-header">
+              <div class="technique-icon">
+                <i class="fas fa-layer-group"></i>
+              </div>
+              <div class="technique-name">Vertical Farming</div>
+            </div>
+            <div class="technique-desc">
+              Space-saving vertical planters on my balcony for strawberries and small vegetables. Maximizes yield in limited urban spaces.
+            </div>
+            <div class="technique-stats">
+              <div class="technique-stat">🔼 3 Towers</div>
+              <div class="technique-stat">🍓 20 Plants</div>
+              <div class="technique-stat">☀️ Full Sun</div>
+            </div>
+          </div>
+          
+          <div class="technique-card">
+            <div class="technique-header">
+              <div class="technique-icon">
+                <i class="fas fa-recycle"></i>
+              </div>
+              <div class="technique-name">Composting System</div>
+            </div>
+            <div class="technique-desc">
+              Turning kitchen scraps and garden waste into nutrient-rich compost. Reduces waste and provides natural fertilizer for all my plants.
+            </div>
+            <div class="technique-stats">
+              <div class="technique-stat">♻️ 2 Bins</div>
+              <div class="technique-stat">🌱 Organic Matter</div>
+              <div class="technique-stat">⏳ 3 Month Cycle</div>
+            </div>
+          </div>
+          
+          <div class="technique-card">
+            <div class="technique-header">
+              <div class="technique-icon">
+                <i class="fas fa-tint"></i>
+              </div>
+              <div class="technique-name">Drip Irrigation</div>
+            </div>
+            <div class="technique-desc">
+              Automated watering system that delivers water directly to plant roots. Conserves water and ensures consistent moisture levels.
+            </div>
+            <div class="technique-stats">
+              <div class="technique-stat">💧 60% Savings</div>
+              <div class="technique-stat">⏲️ Timer Controlled</div>
+              <div class="technique-stat">🌧️ Rain Sensor</div>
+            </div>
+          </div>
+          
+          <div class="technique-card">
+            <div class="technique-header">
+              <div class="technique-icon">
+                <i class="fas fa-seedling"></i>
+              </div>
+              <div class="technique-name">Seed Starting Station</div>
+            </div>
+            <div class="technique-desc">
+              Indoor setup with grow lights and heat mats for starting seeds early in the season. Gives plants a head start before transplanting.
+            </div>
+            <div class="technique-stats">
+              <div class="technique-stat">💡 LED Lights</div>
+              <div class="technique-stat">🌡️ Heat Mats</div>
+              <div class="technique-stat">🌱 50+ Seedlings</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Plant Modal -->
+  <div class="modal" id="plantModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Plant Progress</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <form id="plantForm">
+        <div class="form-group">
+          <label for="plantName">Plant Name</label>
+          <input type="text" id="plantName" required>
+        </div>
+        <div class="form-group">
+          <label for="plantType">Plant Type</label>
+          <select id="plantType" required>
+            <option value="">Select type</option>
+            <option>Vegetable</option>
+            <option>Fruit</option>
+            <option>Herb</option>
+            <option>Flower</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="plantDate">Planting Date</label>
+          <input type="date" id="plantDate" required>
+        </div>
+        <div class="form-group">
+          <label for="plantImage">Upload Photo</label>
+          <input type="file" id="plantImage" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label for="plantNotes">Notes</label>
+          <textarea id="plantNotes" rows="3"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Save Plant</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menuToggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+    
+    // Plant modal functionality
+    const modal = document.getElementById('plantModal');
+    const addPlantBtn = document.getElementById('addPlantBtn');
+    const closeModal = document.querySelector('.close-modal');
+    const plantForm = document.getElementById('plantForm');
+
+    addPlantBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    plantForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Here you would normally handle the form submission (e.g., save to database)
+      alert('Plant progress saved successfully!');
+      modal.style.display = 'none';
+      plantForm.reset();
+    });
+  </script>
+</body>
+</html>

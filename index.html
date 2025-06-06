@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Farm | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4CAF50;
+      --primary-dark: #388E3C;
+      --secondary: #8BC34A;
+      --light: #F1F8E9;
+      --white: #ffffff;
+      --text-dark: #263238;
+      --error: #f44336;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+    
+    .container {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Animated background elements */
+    .leaf {
+      position: absolute;
+      opacity: 0.3;
+      z-index: 0;
+      animation: float 15s infinite linear;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+      }
+    }
+    
+    /* Main content */
+    .main-content {
+      text-align: center;
+      z-index: 1;
+      padding: 2rem;
+      max-width: 800px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    
+    .logo-icon {
+      font-size: 4rem;
+      color: var(--primary);
+      margin-right: 1rem;
+      animation: pulse 2s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.1);
+      }
+    }
+    
+    .title {
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .subtitle {
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+    
+    .login-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .login-btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+    
+    .login-btn:active {
+      transform: translateY(1px);
+    }
+    
+    /* Water droplet animation container */
+    .water-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    
+    .tap {
+      font-size: 3rem;
+      color: var(--primary-dark);
+      margin-bottom: 2rem;
+      animation: drip 2s infinite;
+    }
+    
+    .droplet {
+      width: 20px;
+      height: 20px;
+      background-color: var(--primary);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      position: absolute;
+      top: 50%;
+      animation: fall 1.5s infinite;
+      opacity: 0;
+    }
+    
+    @keyframes drip {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(10px);
+      }
+    }
+    
+    @keyframes fall {
+      0% {
+        top: 50%;
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        top: 120%;
+        opacity: 0;
+      }
+    }
+    
+    .login-form {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    
+    .water-animation.active .login-form {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .submit-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    
+    .submit-btn:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .error-message {
+      color: var(--error);
+      text-align: center;
+      margin-top: 1rem;
+      display: none;
+    }
+    
+    .success-message {
+      color: var(--primary-dark);
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: bold;
+      display: none;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .title {
+        font-size: 3.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .logo-icon {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Animated background leaves -->
+    <div class="leaf" style="top: 10%; left: 5%; font-size: 2rem; animation-delay: 0s;"><i class="fas fa-leaf"></i></div>
+    <div class="leaf" style="top: 20%; left: 80%; font-size: 1.5rem; animation-delay: 2s;"><i class="fas fa-seedling"></i></div>
+    <div class="leaf" style="top: 60%; left: 15%; font-size: 2.5rem; animation-delay: 5s;"><i class="fas fa-leaf"></i></div>
+    <div class="leaf" style="top: 70%; left: 75%; font-size: 1.8rem; animation-delay: 3s;"><i class="fas fa-seedling"></i></div>
+    
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="logo">
+        <i class="fas fa-leaf logo-icon"></i>
+        <h1 class="title">Smart Farm</h1>
+      </div>
+      <p class="subtitle">Where Farmers Connect Eachother
+      </p>
+      <button class="login-btn" id="loginBtn">Login</button>
+    </div>
+    
+    <!-- Water droplet animation and login form -->
+    <div class="water-animation" id="waterAnimation">
+      <div class="tap"><i class="fas fa-faucet"></i></div>
+      <div class="droplet" style="left: 50%; animation-delay: 0.5s;"></div>
+      <div class="droplet" style="left: 48%; animation-delay: 1s;"></div>
+      <div class="droplet" style="left: 52%; animation-delay: 1.5s;"></div>
+      
+      <div class="login-form">
+        <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--primary-dark);">Welcome Back</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your username" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="submit-btn">Login</button>
+          <div class="error-message" id="errorMessage">
+            Invalid username or password. Please try again.
+          </div>
+          <div class="success-message" id="successMessage">
+            Login successful! Redirecting...
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Login button functionality
+    const loginBtn = document.getElementById('loginBtn');
+    const waterAnimation = document.getElementById('waterAnimation');
+    const loginForm = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+    
+    loginBtn.addEventListener('click', function() {
+      // Show water animation
+      waterAnimation.style.display = 'flex';
+      
+      // After a short delay, add active class to show form
+      setTimeout(() => {
+        waterAnimation.classList.add('active');
+      }, 100);
+      
+      // Create additional droplets for effect
+      for (let i = 0; i < 5; i++) {
+        createDroplet();
+      }
+    });
+    
+    function createDroplet() {
+      const droplet = document.createElement('div');
+      droplet.className = 'droplet';
+      droplet.style.left = Math.random() * 80 + 10 + '%';
+      droplet.style.animationDelay = Math.random() * 2 + 's';
+      waterAnimation.appendChild(droplet);
+      
+      // Remove droplet after animation completes
+      setTimeout(() => {
+        droplet.remove();
+      }, 1500);
+    }
+    
+    // Form submission
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      // Hide any previous messages
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+      
+      // Check credentials
+      if (username === 'smartfarm' && password === '2424') {
+        // Successful login
+        successMessage.style.display = 'block';
+        
+        // Redirect after a delay
+        setTimeout(() => {
+          window.location.href = 'app.html'; // Change to your actual app page
+        }, 1500);
+      } else {
+        // Failed login
+        errorMessage.style.display = 'block';
+        
+        // Shake animation for error
+        loginForm.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          loginForm.style.animation = '';
+        }, 500);
+      }
+    });
+    
+    // Add shake animation dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

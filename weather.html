@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Farm | Weather</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4CAF50;
+      --primary-dark: #388E3C;
+      --secondary: #FFC107;
+      --dark: #263238;
+      --light: #f5f5f5;
+      --gray: #757575;
+      --white: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+    }
+    
+    /* Header */
+    header {
+      background-color: var(--white);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      color: var(--secondary);
+    }
+    
+    .search-bar {
+      flex: 1;
+      margin: 0 2rem;
+      position: relative;
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .search-bar i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+    
+    .nav-icons {
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-icons a {
+      color: var(--dark);
+      font-size: 1.2rem;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      position: relative;
+    }
+    
+    .nav-icons a:hover {
+      color: var(--primary);
+    }
+    
+    .nav-icons .profile-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 20px;
+    }
+    
+    /* Left Sidebar */
+    .sidebar {
+      background-color: var(--white);
+      border-radius: 8px;
+      padding: 1.5rem;
+      height: fit-content;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      color: var(--dark);
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--primary);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* Main Weather Content */
+    .weather-content {
+      background-color: var(--white);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .page-title {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+    }
+    
+    .page-title i {
+      margin-right: 15px;
+      color: var(--secondary);
+    }
+    
+    /* Current Weather */
+    .current-weather {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .weather-card {
+      background: linear-gradient(135deg, #64B5F6, #1976D2);
+      color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .weather-card::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    
+    .weather-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .weather-location {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .weather-date {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    .weather-main {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .weather-temp {
+      font-size: 3.5rem;
+      font-weight: 600;
+      margin-right: 1.5rem;
+    }
+    
+    .weather-icon {
+      font-size: 3.5rem;
+      margin-right: 1.5rem;
+    }
+    
+    .weather-desc {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .weather-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .weather-detail {
+      display: flex;
+      align-items: center;
+    }
+    
+    .weather-detail i {
+      margin-right: 8px;
+      font-size: 1.1rem;
+    }
+    
+    /* Forecast Section */
+    .forecast-section {
+      margin-top: 2rem;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+    }
+    
+    .section-title i {
+      margin-right: 10px;
+    }
+    
+    .hourly-forecast {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .hour-card {
+      min-width: 100px;
+      background: var(--white);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border: 1px solid #eee;
+    }
+    
+    .hour-time {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--gray);
+    }
+    
+    .hour-icon {
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
+      color: #1976D2;
+    }
+    
+    .hour-temp {
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .daily-forecast {
+      display: grid;
+      gap: 1rem;
+    }
+    
+    .day-card {
+      display: grid;
+      grid-template-columns: 100px 1fr 100px;
+      align-items: center;
+      background: var(--white);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border: 1px solid #eee;
+    }
+    
+    .day-name {
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .day-icon {
+      font-size: 1.8rem;
+      color: #1976D2;
+      text-align: center;
+    }
+    
+    .day-temps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .day-high {
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .day-low {
+      color: var(--gray);
+      margin-left: 1rem;
+    }
+    
+    /* Weather Alerts */
+    .alert-card {
+      background: linear-gradient(135deg, #FF9800, #F44336);
+      color: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .alert-icon {
+      font-size: 2rem;
+      margin-right: 1.5rem;
+    }
+    
+    .alert-content h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .alert-content p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    /* Weather Map */
+    .weather-map {
+      height: 300px;
+      background: #e0e0e0;
+      border-radius: 8px;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .weather-map::before {
+      content: 'Interactive Weather Map';
+      position: absolute;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        display: none;
+      }
+      
+      .current-weather {
+        grid-template-columns: 1fr;
+      }
+      
+      .search-bar {
+        margin: 0 1rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        padding: 1rem;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .search-bar {
+        display: none;
+      }
+      
+      .day-card {
+        grid-template-columns: 80px 1fr 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-leaf"></i>
+        <span>Smart Farm</span>
+      </a>
+      <div class="search-bar">
+        <input type="text" placeholder="Search for plants, farmers...">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="nav-icons">
+        <a href="app.html"><i class="fas fa-user"></i></a>
+        <a href="network.html"><i class="fas fa-users"></i></a>
+        <a href="weather.html" class="active"><i class="fas fa-cloud-sun"></i></a>
+        <a href="calendar.html"><i class="fas fa-calendar-alt"></i></a>
+        <a href="#"><img src="abin2.jpg" alt="Profile" class="profile-img"></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <ul class="sidebar-menu">
+        <li><a href="app.html"><i class="fas fa-user"></i> My Profile</a></li>
+        <li><a href="network.html"><i class="fas fa-users"></i> My Network</a></li>
+        <li><a href="weather.html" class="active"><i class="fas fa-cloud-sun"></i> Weather</a></li>
+        <li><a href="calendar.html"><i class="fas fa-calendar-alt"></i> Farming Calendar</a></li>
+        <li><a href="guides.html"><i class="fas fa-book"></i> Farming Guides</a></li>
+        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+        <li><a href="front.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Weather Content -->
+    <main class="weather-content">
+      <h1 class="page-title">
+        <i class="fas fa-cloud-sun"></i>
+        <span>Farm Weather Forecast</span>
+      </h1>
+      
+      <!-- Current Weather -->
+      <div class="current-weather">
+        <div class="weather-card">
+          <div class="weather-header">
+            <div class="weather-location">Main Farm</div>
+            <div class="weather-date">Today, May 17</div>
+          </div>
+          <div class="weather-main">
+            <div class="weather-temp">24°C</div>
+            <div class="weather-icon">
+              <i class="fas fa-sun"></i>
+            </div>
+            <div class="weather-desc">Sunny</div>
+          </div>
+          <div class="weather-details">
+            <div class="weather-detail">
+              <i class="fas fa-tint"></i>
+              <span>Humidity: 65%</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-wind"></i>
+              <span>Wind: 12 km/h SW</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-arrow-up"></i>
+              <span>High: 26°C</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-arrow-down"></i>
+              <span>Low: 18°C</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-cloud-rain"></i>
+              <span>Precip: 10%</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-eye"></i>
+              <span>Visibility: 10 km</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="weather-card" style="background: linear-gradient(135deg, #4CAF50, #388E3C);">
+          <div class="weather-header">
+            <div class="weather-location">Greenhouse #1</div>
+            <div class="weather-date">Current Conditions</div>
+          </div>
+          <div class="weather-main">
+            <div class="weather-temp">28°C</div>
+            <div class="weather-icon">
+              <i class="fas fa-temperature-high"></i>
+            </div>
+            <div class="weather-desc">Controlled Climate</div>
+          </div>
+          <div class="weather-details">
+            <div class="weather-detail">
+              <i class="fas fa-tint"></i>
+              <span>Humidity: 75%</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-wind"></i>
+              <span>Ventilation: On</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-sun"></i>
+              <span>Light: 6500 lux</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-water"></i>
+              <span>Soil Moisture: 42%</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-thermometer-half"></i>
+              <span>CO₂: 800 ppm</span>
+            </div>
+            <div class="weather-detail">
+              <i class="fas fa-cloud"></i>
+              <span>Shade: 30%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Hourly Forecast -->
+      <div class="forecast-section">
+        <h2 class="section-title">
+          <i class="fas fa-clock"></i>
+          <span>Hourly Forecast</span>
+        </h2>
+        <div class="hourly-forecast">
+          <div class="hour-card">
+            <div class="hour-time">Now</div>
+            <div class="hour-icon"><i class="fas fa-sun"></i></div>
+            <div class="hour-temp">24°C</div>
+          </div>
+          <div class="hour-card">
+            <div class="hour-time">1 PM</div>
+            <div class="hour-icon"><i class="fas fa-sun"></i></div>
+            <div class="hour-temp">25°C</div>
+          </div>
+          <div class="hour-card">
+            <div class="hour-time">2 PM</div>
+            <div class="hour-icon"><i class="fas fa-sun"></i></div>
+            <div class="hour-temp">26°C</div>
+          </div>
+          <div class="hour-card">
+            <div class="hour-time">3 PM</div>
+            <div class="hour-icon"><i class="fas fa-cloud-sun"></i></div>
+            <div class="hour-temp">26°C</div>
+          </div>
+          <div class="hour-card">
+            <div class="hour-time">4 PM</div>
+            <div class="hour-icon"><i class="fas fa-cloud-sun"></i></div>
+            <div class="hour-temp">25°C</div>
+          </div>
+          <div class="hour-card">
+            <div class="hour-time">5 PM</div>
+            <div class="hour-icon"><i class="fas fa-cloud"></i></div>
+            <div class="hour-temp">24°C</div>
+          </div>
+          <div class="hour-card">
+            <div class="hour-time">6 PM</div>
+            <div class="hour-icon"><i class="fas fa-cloud"></i></div>
+            <div class="hour-temp">22°C</div>
+          </div>
+          <div class="hour-card">
+            <div class="hour-time">7 PM</div>
+            <div class="hour-icon"><i class="fas fa-cloud-rain"></i></div>
+            <div class="hour-temp">20°C</div>
+          </div>
+          <div class="hour-card">
+            <div class="hour-time">8 PM</div>
+            <div class="hour-icon"><i class="fas fa-cloud-rain"></i></div>
+            <div class="hour-temp">19°C</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Daily Forecast -->
+      <div class="forecast-section">
+        <h2 class="section-title">
+          <i class="fas fa-calendar-day"></i>
+          <span>7-Day Forecast</span>
+        </h2>
+        <div class="daily-forecast">
+          <div class="day-card">
+            <div class="day-name">Today</div>
+            <div class="day-icon"><i class="fas fa-sun"></i></div>
+            <div class="day-temps">
+              <span class="day-high">26°C</span>
+              <span class="day-low">18°C</span>
+            </div>
+          </div>
+          <div class="day-card">
+            <div class="day-name">Tomorrow</div>
+            <div class="day-icon"><i class="fas fa-cloud-sun-rain"></i></div>
+            <div class="day-temps">
+              <span class="day-high">24°C</span>
+              <span class="day-low">17°C</span>
+            </div>
+          </div>
+          <div class="day-card">
+            <div class="day-name">Wed</div>
+            <div class="day-icon"><i class="fas fa-cloud-showers-heavy"></i></div>
+            <div class="day-temps">
+              <span class="day-high">21°C</span>
+              <span class="day-low">16°C</span>
+            </div>
+          </div>
+          <div class="day-card">
+            <div class="day-name">Thu</div>
+            <div class="day-icon"><i class="fas fa-cloud-sun"></i></div>
+            <div class="day-temps">
+              <span class="day-high">23°C</span>
+              <span class="day-low">15°C</span>
+            </div>
+          </div>
+          <div class="day-card">
+            <div class="day-name">Fri</div>
+            <div class="day-icon"><i class="fas fa-sun"></i></div>
+            <div class="day-temps">
+              <span class="day-high">25°C</span>
+              <span class="day-low">16°C</span>
+            </div>
+          </div>
+          <div class="day-card">
+            <div class="day-name">Sat</div>
+            <div class="day-icon"><i class="fas fa-sun"></i></div>
+            <div class="day-temps">
+              <span class="day-high">27°C</span>
+              <span class="day-low">17°C</span>
+            </div>
+          </div>
+          <div class="day-card">
+            <div class="day-name">Sun</div>
+            <div class="day-icon"><i class="fas fa-cloud-sun"></i></div>
+            <div class="day-temps">
+              <span class="day-high">26°C</span>
+              <span class="day-low">18°C</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Weather Alert -->
+      <div class="alert-card">
+        <div class="alert-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="alert-content">
+          <h4>Weather Advisory</h4>
+          <p>Heavy rainfall expected tomorrow afternoon through evening. Potential accumulation of 30-50mm. Prepare drainage systems.</p>
+        </div>
+      </div>
+      
+      <!-- Weather Map -->
+      <div class="forecast-section">
+        <h2 class="section-title">
+          <i class="fas fa-map"></i>
+          <span>Weather Radar</span>
+        </h2>
+        <div class="weather-map">
+          <!-- This would be replaced with an actual weather map integration -->
+          Interactive Weather Map
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Update current time
+    function updateTime() {
+      const now = new Date();
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      document.querySelectorAll('.weather-date').forEach(el => {
+        if (el.textContent.includes('Today')) {
+          el.textContent = 'Today, ' + now.toLocaleDateString('en-US', options).split(',')[1].trim();
+        }
+      });
+    }
+    
+    updateTime();
+    setInterval(updateTime, 60000);
+    
+    // Simulate loading weather data
+    setTimeout(() => {
+      document.querySelector('.weather-temp').textContent = '25°C';
+      document.querySelector('.weather-desc').textContent = 'Mostly Sunny';
+    }, 1500);
+  </script>
+</body>
+</html>

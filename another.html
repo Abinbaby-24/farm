@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriTech AI - Smart Urban Farming Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-light: #4caf50;
+      --primary-dark: #1b5e20;
+      --secondary: #ffa000;
+      --dark: #263238;
+      --light: #f5f5f5;
+      --danger: #d32f2f;
+      --warning: #ffa000;
+      --success: #388e3c;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      color: var(--secondary);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin-left: 2rem;
+    }
+    
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+    }
+    
+    nav ul li a:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    
+    .cta-button {
+      background-color: var(--secondary);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .cta-button:hover {
+      background-color: #ff8f00;
+      transform: translateY(-2px);
+    }
+    
+    .mobile-menu {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1586771107445-d3ca888129ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 5rem 0;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    
+    /* Features */
+    .features {
+      padding: 4rem 0;
+      background-color: white;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .section-title h2 {
+      font-size: 2.2rem;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+    }
+    
+    .section-title p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background-color: var(--light);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--primary-dark);
+    }
+    
+    /* Dashboard Preview */
+    .dashboard {
+      padding: 4rem 0;
+      background-color: #f5f9f5;
+    }
+    
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    
+    .dashboard-content h2 {
+      font-size: 2.2rem;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+    }
+    
+    .dashboard-content p {
+      margin-bottom: 2rem;
+      color: #555;
+    }
+    
+    .dashboard-preview {
+      background-color: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .sensor-data {
+      margin-top: 1.5rem;
+    }
+    
+    .data-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .data-label {
+      font-weight: 500;
+    }
+    
+    .data-value {
+      font-weight: 600;
+    }
+    
+    .status-good {
+      color: var(--success);
+    }
+    
+    .status-warning {
+      color: var(--warning);
+    }
+    
+    .status-danger {
+      color: var(--danger);
+    }
+    
+    /* Weather Alerts */
+    .weather-alerts {
+      padding: 4rem 0;
+      background-color: white;
+    }
+    
+    .alert-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff8e1;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    
+    .alert-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .alert-icon {
+      font-size: 2rem;
+      color: var(--warning);
+      margin-right: 1rem;
+    }
+    
+    .alert-content h3 {
+      font-size: 1.5rem;
+      color: var(--warning);
+      margin-bottom: 0.5rem;
+    }
+    
+    .alert-actions {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      padding: 4rem 0;
+      background-color: var(--light);
+    }
+    
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .testimonial-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #eee;
+      margin-right: 1rem;
+      overflow: hidden;
+    }
+    
+    .author-info h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+    
+    .author-info p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      padding: 4rem 0;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: white;
+      text-align: center;
+    }
+    
+    .cta-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .cta-section p {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    
+    .primary-btn {
+      background-color: var(--secondary);
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .primary-btn:hover {
+      background-color: #ff8f00;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .secondary-btn {
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .secondary-btn:hover {
+      background-color: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 3rem 0 1rem;
+    }
+    
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-logo i {
+      margin-right: 10px;
+      color: var(--secondary);
+    }
+    
+    .footer-about p {
+      color: #bbb;
+      margin-bottom: 1.5rem;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      color: var(--secondary);
+    }
+    
+    .footer-links h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--secondary);
+    }
+    
+    .footer-links ul {
+      list-style: none;
+    }
+    
+    .footer-links ul li {
+      margin-bottom: 0.8rem;
+    }
+    
+    .footer-links ul li a {
+      color: #bbb;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .footer-links ul li a:hover {
+      color: white;
+    }
+    
+    .footer-newsletter p {
+      color: #bbb;
+      margin-bottom: 1.5rem;
+    }
+    
+    .newsletter-form {
+      display: flex;
+    }
+    
+    .newsletter-form input {
+      flex: 1;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .newsletter-form button {
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      padding: 0 1.5rem;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .newsletter-form button:hover {
+      background-color: #ff8f00;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid #444;
+      color: #bbb;
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .dashboard-preview {
+        order: -1;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+      
+      .mobile-menu {
+        display: block;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate {
+      animation: fadeIn 0.8s ease forwards;
+    }
+    
+    .delay-1 {
+      animation-delay: 0.2s;
+    }
+    
+    .delay-2 {
+      animation-delay: 0.4s;
+    }
+    
+    .delay-3 {
+      animation-delay: 0.6s;
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      padding: 2rem;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    .modal h2 {
+      margin-bottom: 1.5rem;
+      color: var(--primary-dark);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .form-group textarea {
+      min-height: 100px;
+    }
+    
+    .submit-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+      background-color: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+        <span>AgriTech AI</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#dashboard">Dashboard</a></li>
+          <li><a href="#alerts">Alerts</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#" class="cta-button" id="demo-btn">Request Demo</a></li>
+        </ul>
+      </nav>
+      <div class="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="animate">Revolutionizing Urban Farming with AI & IoT</h1>
+      <p class="animate delay-1">Our smart farming kits combine cutting-edge sensors with artificial intelligence to optimize your urban farming experience.</p>
+      <div class="cta-buttons animate delay-2">
+        <a href="#" class="primary-btn" id="get-started-btn">Get Started</a>
+        <a href="#" class="secondary-btn">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title animate">
+        <h2>Smart Farming Features</h2>
+        <p>Our comprehensive solution provides everything you need for successful urban farming</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animate delay-1">
+          <div class="feature-icon">
+            <i class="fas fa-microchip"></i>
+          </div>
+          <h3>IoT Sensors</h3>
+          <p>Real-time monitoring of soil moisture, light levels, temperature, and nutrient content with our advanced sensor array.</p>
+        </div>
+        <div class="feature-card animate delay-2">
+          <div class="feature-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>AI Analysis</h3>
+          <p>Our machine learning algorithms analyze plant health and provide personalized recommendations for optimal growth.</p>
+        </div>
+        <div class="feature-card animate delay-3">
+          <div class="feature-icon">
+            <i class="fas fa-cloud-sun-rain"></i>
+          </div>
+          <h3>Weather Integration</h3>
+          <p>Automated adjustments based on local weather forecasts to protect your plants from extreme conditions.</p>
+        </div>
+        <div class="feature-card animate delay-1">
+          <div class="feature-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3>Mobile App</h3>
+          <p>Control and monitor your farm from anywhere with our intuitive mobile application.</p>
+        </div>
+        <div class="feature-card animate delay-2">
+          <div class="feature-icon">
+            <i class="fas fa-tint"></i>
+          </div>
+          <h3>Automated Irrigation</h3>
+          <p>Smart water management system that delivers the perfect amount of water at the right time.</p>
+        </div>
+        <div class="feature-card animate delay-3">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Growth Analytics</h3>
+          <p>Track your plants' progress over time with detailed analytics and growth predictions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Preview -->
+  <section class="dashboard" id="dashboard">
+    <div class="container dashboard-container">
+      <div class="dashboard-content animate">
+        <h2>Real-Time Farming Dashboard</h2>
+        <p>Our intuitive dashboard gives you complete visibility and control over your urban farm. Monitor all critical parameters in real-time and receive actionable insights.</p>
+        <p>With historical data tracking, you can analyze trends and optimize your farming strategy for maximum yield.</p>
+        <a href="#" class="primary-btn">View Full Dashboard</a>
+      </div>
+      <div class="dashboard-preview animate delay-1">
+        <h3>Plant Health Overview</h3>
+        <div class="chart-container">
+          <canvas id="healthChart" height="200"></canvas>
+        </div>
+        <div class="sensor-data">
+          <div class="data-item">
+            <span class="data-label">Soil Moisture</span>
+            <span class="data-value status-good">65% (Optimal)</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Light Exposure</span>
+            <span class="data-value status-warning">42% (Low)</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Temperature</span>
+            <span class="data-value status-good">24°C (Optimal)</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Nutrient Level</span>
+            <span class="data-value status-danger">18% (Critical)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weather Alerts -->
+  <section class="weather-alerts" id="alerts">
+    <div class="container">
+      <div class="section-title animate">
+        <h2>Smart Weather Alerts</h2>
+        <p>Our system proactively protects your plants from adverse weather conditions</p>
+      </div>
+      <div class="alert-container animate delay-1">
+        <div class="alert-header">
+          <div class="alert-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="alert-content">
+            <h3>Weather Advisory</h3>
+            <p>High temperature warning for tomorrow (35°C expected). Your basil plants may experience heat stress.</p>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="primary-btn" id="view-details">View Details</button>
+          <button class="secondary-btn">Dismiss</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-title animate">
+        <h2>What Our Customers Say</h2>
+        <p>Join thousands of urban farmers growing with confidence</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card animate delay-1">
+          <div class="testimonial-text">
+            "The AgriTech AI system has completely transformed my rooftop garden. My yields have increased by 40% while using 30% less water."
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J.">
+            </div>
+            <div class="author-info">
+              <h4>Sarah J.</h4>
+              <p>Urban Farmer, Chicago</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card animate delay-2">
+          <div class="testimonial-text">
+            "As a beginner, the AI recommendations gave me the confidence to grow my own food. The alerts saved my plants during a heatwave last summer."
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael T.">
+            </div>
+            <div class="author-info">
+              <h4>Michael T.</h4>
+              <p>Home Gardener, Austin</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card animate delay-3">
+          <div class="testimonial-text">
+            "Our restaurant's herb garden has never been more productive. The automated system ensures perfect growing conditions year-round."
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Elena R.">
+            </div>
+            <div class="author-info">
+              <h4>Elena R.</h4>
+              <p>Chef & Restaurant Owner, NYC</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="animate">Ready to Start Your Smart Farming Journey?</h2>
+      <p class="animate delay-1">Join the urban farming revolution today and experience the future of agriculture.</p>
+      <div class="cta-buttons animate delay-2">
+        <a href="#" class="primary-btn" id="contact-btn">Contact Us</a>
+        <a href="#" class="secondary-btn">Pricing Plans</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-about">
+          <div class="footer-logo">
+            <i class="fas fa-leaf"></i>
+            <span>AgriTech AI</span>
+          </div>
+          <p>Empowering urban farmers with AI and IoT technology for sustainable, efficient agriculture.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h3>Products</h3>
+          <ul>
+            <li><a href="#">Starter Kit</a></li>
+            <li><a href="#">Commercial Kit</a></li>
+            <li><a href="#">Sensors</a></li>
+            <li><a href="#">Mobile App</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+        <div class="footer-newsletter">
+          <h3>Newsletter</h3>
+          <p>Subscribe to get updates on new products and farming tips.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address">
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 AgriTech AI. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal" id="contact-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Request a Demo</h2>
+      <form id="demo-form">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone">
+        </div>
+        <div class="form-group">
+          <label for="interest">Interest</label>
+          <select id="interest">
+            <option value="">Select an option</option>
+            <option value="home">Home Gardening</option>
+            <option value="commercial">Commercial Farming</option>
+            <option value="education">Educational Institution</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Chart
+    const ctx = document.getElementById('healthChart').getContext('2d');
+    const healthChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [
+          {
+            label: 'Soil Moisture',
+            data: [65, 68, 62, 60, 58, 65, 67],
+            borderColor: '#4caf50',
+            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+            tension: 0.3,
+            fill: true
+          },
+          {
+            label: 'Light Exposure',
+            data: [45, 42, 40, 38, 45, 50, 48],
+            borderColor: '#ffa000',
+            backgroundColor: 'rgba(255, 160, 0, 0.1)',
+            tension: 0.3,
+            fill: true
+          },
+          {
+            label: 'Temperature',
+            data: [22, 23, 24, 25, 24, 23, 22],
+            borderColor: '#2196f3',
+            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+            tension: 0.3,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
+
+    // Modal functionality
+    const modal = document.getElementById('contact-modal');
+    const demoBtn = document.getElementById('demo-btn');
+    const getStartedBtn = document.getElementById('get-started-btn');
+    const contactBtn = document.getElementById('contact-btn');
+    const closeModal = document.querySelector('.close-modal');
+    
+    function openModal() {
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModalFunc() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+    
+    demoBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+    
+    getStartedBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+    
+    contactBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+    
+    closeModal.addEventListener('click', closeModalFunc);
+    
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModalFunc();
+      }
+    });
+    
+    // Form submission
+    const demoForm = document.getElementById('demo-form');
+    demoForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you for your request! We will contact you shortly.');
+      closeModalFunc();
+      demoForm.reset();
+    });
+    
+    // Weather alert details
+    const viewDetailsBtn = document.getElementById('view-details');
+    viewDetailsBtn.addEventListener('click', () => {
+      alert('Detailed weather forecast:\n\nTomorrow: High of 35°C, sunny with 10% chance of rain.\nRecommendations:\n1. Move plants to shaded area\n2. Increase watering frequency\n3. Consider using shade cloth\n4. Water in early morning or late evening');
+    });
+    
+    // Animation on scroll
+    const animateElements = document.querySelectorAll('.animate');
+    
+    function checkAnimation() {
+      animateElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (elementTop < windowHeight - 100) {
+          element.style.opacity = 1;
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', checkAnimation);
+    window.addEventListener('load', checkAnimation);
+    
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu');
+    const navMenu = document.querySelector('nav ul');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+    });
+    
+    // Update sensor data randomly (simulation)
+    function updateSensorData() {
+      const dataValues = document.querySelectorAll('.data-value');
+      
+      dataValues.forEach(value => {
+        const currentValue = parseFloat(value.textContent);
+        let newValue;
+        
+        if (value.classList.contains('status-good')) {
+          newValue = currentValue + (Math.random() * 4 - 2);
+          newValue = Math.max(60, Math.min(80, newValue));
+          value.textContent = `${newValue.toFixed(0)}% (Optimal)`;
+        } else if (value.classList.contains('status-warning')) {
+          newValue = currentValue + (Math.random() * 6 - 3);
+          newValue = Math.max(35, Math.min(55, newValue));
+          value.textContent = `${newValue.toFixed(0)}% (Low)`;
+        } else if (value.classList.contains('status-danger')) {
+          newValue = currentValue + (Math.random() * 5);
+          newValue = Math.max(15, Math.min(30, newValue));
+          const status = newValue > 20 ? 'Low' : 'Critical';
+          value.textContent = `${newValue.toFixed(0)}% (${status})`;
+          value.className = `data-value status-${newValue > 20 ? 'warning' : 'danger'}`;
+        } else {
+          newValue = currentValue + (Math.random() * 2 - 1);
+          newValue = Math.max(20, Math.min(26, newValue));
+          value.textContent = `${newValue.toFixed(0)}°C (Optimal)`;
+        }
+      });
+      
+      // Update chart data
+      healthChart.data.datasets.forEach(dataset => {
+        dataset.data = dataset.data.map(value => {
+          const change = Math.random() * 6 - 3;
+          if (dataset.label === 'Soil Moisture') {
+            return Math.max(55, Math.min(75, value + change));
+          } else if (dataset.label ===
